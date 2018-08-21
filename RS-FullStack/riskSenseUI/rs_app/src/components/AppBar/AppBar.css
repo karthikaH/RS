@@ -1,0 +1,13 @@
+.flex{
+    flex: 1;
+ }
+ .titleAlign{
+    text-align: center;
+ }
+ .appBarClass{
+    display:flex;
+ }
+ .appbarWh{
+   width:100%;
+   height:50px;
+ }

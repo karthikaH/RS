@@ -1,0 +1,7 @@
+{
+  "name": "riskSenseApplication",
+  "version": "1.0.0",
+  "dependencies": {
+    "mysql": "^2.16.0"
+  }
+}
