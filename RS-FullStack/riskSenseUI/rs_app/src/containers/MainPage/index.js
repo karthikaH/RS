@@ -73,19 +73,102 @@ componentDidMount() {
 
 componentWillReceiveProps = (nextProps) => {
   let value = [];
+  let wrapArray = nextProps.riskData.map((e)=>{
+      return e.target;
+  });
+  let wrapAvg0 = wrapArray.reduce((acc, e, i)=>{
+    return i <5?acc+parseInt(e):acc;
+  })
+  wrapAvg0 = wrapAvg0/4;
+
+  let wrapAvg1 = wrapArray.reduce((acc, e, i)=>{
+    return (i>4 &&i <9)?acc+parseInt(e):acc;
+  })
+  wrapAvg1 = wrapAvg1/4;
+
+  let wrapAvg2 = wrapArray.reduce((acc, e, i)=>{
+    return (i>8 &&i <13)?acc+parseInt(e):acc;
+  })
+  wrapAvg2 = wrapAvg2/4;
+
+  let wrapAvg3 = wrapArray.reduce((acc, e, i)=>{
+    return (i>12 &&i <17)?acc+parseInt(e):acc;
+  })
+  wrapAvg3 = wrapAvg3/4;
+
+  let wrapAvg4 = wrapArray.reduce((acc, e, i)=>{
+    return (i>16 &&i <21)?acc+parseInt(e):acc;
+  })
+  wrapAvg4 = wrapAvg4/4;
+  let totalAvg = (wrapAvg0+wrapAvg1+wrapAvg2+wrapAvg3+wrapAvg4)/5;
+  console.log(totalAvg);
+  console.log(wrapAvg0);
+  console.log(wrapAvg1);
+  console.log(wrapAvg2);
+  console.log(wrapAvg3);
+  console.log(wrapAvg4);
+  let y0 = 2;
+  let y1 = 2;
+  let y2 = 2;
+  let y3 = 2;
+  let y4 = 2;
   value = nextProps.riskData.map((e)=>{
     let dta;
     if(e.rank_s <5){
-      dta = {x:e.rank_s,y:5, size:e.target, color:0, label: 'woah!'};
-      return dta;
+      if(totalAvg < wrapAvg0){
+        dta = {x:e.rank_s,y:y0, size:e.target, color:0, label: 'woah!'};
+        y0 = y0 +2;
+      }else{
+      if(e.target < wrapAvg0)
+      dta = {x:e.rank_s,y:2, size:e.target, color:0, label: 'woah!'};
+      else{
+       dta = {x:e.rank_s,y:6, size:e.target, color:0, label: 'woah!'};
+      }
+    }
     } else if(e.rank_s >4 && e.rank_s <9){
-      dta = {x:e.rank_s,y:5, size:e.target, color:1, label: 'woah!'};
+      if(totalAvg < wrapAvg1){
+        dta = {x:e.rank_s,y:y1, size:e.target, color:1, label: 'woah!'};
+        y1 = y1 +2;
+      }else{
+      if(e.target < wrapAvg1)
+      dta = {x:e.rank_s,y:2, size:e.target, color:1, label: 'woah!'};
+      else{
+       dta = {x:e.rank_s,y:6, size:e.target, color:1, label: 'woah!'};
+      }
+    }
     } else if(e.rank_s >8 && e.rank_s <13){
-      dta = {x:e.rank_s,y:5, size:e.target, color:2, label: 'woah!'};
+      if(totalAvg < wrapAvg2){
+        dta = {x:e.rank_s,y:y2, size:e.target, color:2, label: 'woah!'};
+        y2 = y2 +2;
+      }else{
+      if(e.target < wrapAvg2)
+      dta = {x:e.rank_s,y:2, size:e.target, color:2, label: 'woah!'};
+      else{
+       dta = {x:e.rank_s,y:6, size:e.target, color:2, label: 'woah!'};
+      }
+     }
     } else if(e.rank_s >12 && e.rank_s <17){
-      dta = {x:e.rank_s,y:5, size:e.target, color:3, label: 'woah!'};
+      if(totalAvg < wrapAvg3){
+        dta = {x:e.rank_s,y:y3, size:e.target, color:3, label: 'woah!'};
+        y3 = y3 +2;
+      }else{
+      if(e.target < wrapAvg3)
+      dta = {x:e.rank_s,y:2, size:e.target, color:3, label: 'woah!'};
+      else{
+       dta = {x:e.rank_s,y:6, size:e.target, color:3, label: 'woah!'};
+      }
+     }
     } else {
-      dta = {x:e.rank_s,y:5, size:e.target, color:4, label: 'woah!'};
+      if(totalAvg < wrapAvg4){
+        dta = {x:e.rank_s,y:y2, size:e.target, color:4, label: 'woah!'};
+        y4 = y4 +2;
+      }else{
+      if(e.target < wrapAvg4)
+      dta = {x:e.rank_s,y:2, size:e.target, color:4, label: 'woah!'};
+      else{
+       dta = {x:e.rank_s,y:6, size:e.target, color:4, label: 'woah!'};
+      }
+     }
     }
     return dta;
   });
@@ -105,7 +188,7 @@ componentWillReceiveProps = (nextProps) => {
         </div>
         <div>
         <FlexibleWidthXYPlot
-          height={500}
+          height={850}
           colorType="category"
           colorRange={['red', 'orange', 'yellow', 'green', 'blue']}
           >
@@ -133,7 +216,7 @@ componentWillReceiveProps = (nextProps) => {
               className="mark-series-example"
               strokeWidth={2}
               opacity="0.8"
-              sizeRange={[0,100]}
+              sizeRange={[1,100]}
               data={this.state.series}>
            </MarkSeries>
            {this.state.datapointVal?<Hint value={this.state.datapointVal} format={(data) =>{
